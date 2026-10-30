@@ -10,9 +10,9 @@ A toolkit for preparing an original Telugu folk campaign song for Peripi Gramam.
 - Target duration: about 2 minutes
 
 ## Current demo status
-- `assets/peripi_folk_campaign_instrumental_demo.mp3` is an original instrumental demo.
+- The downloadable project ZIP contains `assets/peripi_folk_campaign_instrumental_demo.mp3`, an original instrumental demo, plus a playable vocal-guide MP3.
 - `src/create_vocal_guide_demo.py` adds a rough spoken Telugu guide using the local eSpeak `te` test voice. It is useful for timing and checking name placement, but it is **not a natural sung duet** and the test voice may pronounce Telugu imperfectly.
-- The best final campaign version should use native Telugu singers or a Telugu-capable singing generator, then be checked by a native speaker before public use.
+- The binary audio is provided in the project ZIP rather than committed directly to this GitHub repository. Download the ZIP and extract it before running the script.
 
 ## Files
 - `lyrics/song_te.txt` — Telugu lyrics with singer cues
@@ -34,7 +34,7 @@ python src/make_pronunciation_guide.py
 python src/create_vocal_guide_demo.py
 ```
 
-The demo script writes `peripi_campaign_vocal_guide_demo.mp3` and `peripi_telugu_spoken_guide.wav` in the project root. The script uses an instrumental asset included in `assets/`.
+The demo script writes `peripi_campaign_vocal_guide_demo.mp3` and `peripi_telugu_spoken_guide.wav` in the project root.
 
 To mix real or generated vocals instead:
 

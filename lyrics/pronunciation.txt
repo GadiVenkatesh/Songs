@@ -1,0 +1,30 @@
+# Pronunciation guide (read aloud before recording)
+
+## Place
+Telugu: పెరిపి గ్రామం
+Roman: Pe-ri-pi GRAA-mam
+Say it as two clear words: “Peripi Graamam”. Do not say “Vilg Peripi”.
+
+## MPTC candidate
+Telugu: కొరాడ కోటేశ్వరరావు
+Roman: Ko-raa-da Ko-tesh-wa-ra-raa-vu
+Break for a singer: “Korada | Koteswara Rao”.
+Keep the long vowel in “రా” of Korada. Do not merge the full name into one rushed phrase.
+
+## ZPTC candidate
+Telugu: వలిరెడ్డి శ్రీనివాస్ నాయుడు
+Roman: Va-li-red-di Shree-ni-vaas Naa-yu-du
+Break for a singer: “Valireddy | Srinivas | Naidu”.
+Keep “శ్రీ” clear; do not swallow the “రెడ్డి” or shorten “నాయుడు”.
+
+## Singing direction
+- Tempo: 100–108 BPM, 4/4 folk groove.
+- Use a half-beat pause before each candidate's full name.
+- Pronounce names conversationally, not with exaggerated melisma.
+- In call-and-response lines, leave a small gap between question and answer.
+- Ask a native Telugu speaker from the local area to confirm the exact pronunciation of “Valireddy” and “Koteswara Rao” before final export.
+
+## Transliteration used in prompts
+Peripi Graamam
+Korada Koteswara Rao
+Valireddy Srinivas Naidu

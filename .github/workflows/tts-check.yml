@@ -1,0 +1,39 @@
+name: Telugu TTS workflow checks
+
+on:
+  push:
+    branches: [main, "feature/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: python -m pip install -r requirements-tts.txt
+      - name: Compile Python
+        run: python -m py_compile src/generate_telugu_voice.py
+      - name: Validate template placeholders and config
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from string import Formatter
+
+          template = Path("templates/announcement.txt").read_text(encoding="utf-8")
+          config = json.loads(Path("config/announcement.json").read_text(encoding="utf-8"))
+          fields = {name for _, name, _, _ in Formatter().parse(template) if name}
+          missing = fields - config.keys()
+          if missing:
+              raise SystemExit(f"Missing config fields: {sorted(missing)}")
+          if not fields:
+              raise SystemExit("Template has no dynamic fields")
+          print("Template/config validation passed.")
+          PY

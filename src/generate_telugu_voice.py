@@ -41,10 +41,10 @@ def ask_if_missing(label: str, current: str) -> str:
 
 def collect_values(config: dict, interactive: bool) -> dict[str, str]:
     fields = {
-        "village": "Village / place name",
-        "mandal": "Mandal / area name",
-        "mptc_candidate": "MPTC candidate name (optional)",
-        "zptc_candidate": "ZPTC candidate name (optional)",
+        "place": "Place / village name",
+        "area": "Area / mandal name",
+        "person_1": "Person or organization name (optional)",
+        "person_2": "Additional name (optional)",
         "announcement": "Announcement text",
     }
     values: dict[str, str] = {}
@@ -118,7 +118,7 @@ def main() -> int:
         transcript_path.write_text(final_text + "\n", encoding="utf-8")
         print(f"\nAudio saved: {args.output}")
         print(f"Transcript saved: {transcript_path}")
-        print("Review names and pronunciation before publishing.")
+        print("Review the generated audio and pronunciation before sharing.")
         return 0
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"Error: {exc}", file=sys.stderr)

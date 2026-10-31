@@ -19,6 +19,32 @@ on:
         description: "ZPTC candidate name"
         required: true
         type: string
+      voice:
+        description: "Telugu voice"
+        required: true
+        type: choice
+        options:
+          - te-IN-ShrutiNeural
+          - te-IN-MohanNeural
+        default: te-IN-ShrutiNeural
+      rate:
+        description: "Speech speed"
+        required: true
+        type: choice
+        options:
+          - "-5%"
+          - "+0%"
+          - "+5%"
+        default: "+0%"
+      pitch:
+        description: "Voice pitch"
+        required: true
+        type: choice
+        options:
+          - "-2Hz"
+          - "+0Hz"
+          - "+2Hz"
+        default: "+0Hz"
 
 permissions:
   contents: read
@@ -61,12 +87,16 @@ jobs:
           required = ("place", "area", "person_1", "person_2")
           if any(not config[key] for key in required):
               raise SystemExit("Village, mandal, MPTC candidate, and ZPTC candidate are required.")
-          path.write_text(json.dumps(config, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          path.write_text(json.dumps(config, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
           PY
 
       - name: Generate Telugu MP3 and transcript
+        env:
+          VOICE: ${{ inputs.voice }}
+          RATE: ${{ inputs.rate }}
+          PITCH: ${{ inputs.pitch }}
         run: |
-          python src/generate_telugu_voice.py --non-interactive --output output/telugu-announcement.mp3
+          python src/generate_telugu_voice.py --non-interactive --voice "$VOICE" --rate "$RATE" --pitch "$PITCH" --output output/telugu-announcement.mp3
           test -s output/telugu-announcement.mp3
           test -s output/telugu-announcement.txt
 

@@ -1,0 +1,87 @@
+name: Generate Telugu Voice MP3
+
+on:
+  workflow_dispatch:
+    inputs:
+      place:
+        description: "Place or village name"
+        required: true
+        type: string
+      area:
+        description: "Area or mandal name"
+        required: true
+        type: string
+      person_1:
+        description: "Optional person/organization name"
+        required: false
+        default: "వివరాలు లేవు"
+        type: string
+      person_2:
+        description: "Optional additional detail"
+        required: false
+        default: "వివరాలు లేవు"
+        type: string
+      announcement:
+        description: "Announcement text to read aloud (use neutral, factual wording)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  generate-audio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install TTS dependency
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements-tts.txt
+
+      - name: Prepare announcement config
+        env:
+          PLACE: ${{ inputs.place }}
+          AREA: ${{ inputs.area }}
+          PERSON_1: ${{ inputs.person_1 }}
+          PERSON_2: ${{ inputs.person_2 }}
+          ANNOUNCEMENT: ${{ inputs.announcement }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          path = Path("config/announcement.json")
+          config = json.loads(path.read_text(encoding="utf-8"))
+          config["place"] = os.environ["PLACE"].strip()
+          config["area"] = os.environ["AREA"].strip()
+          config["person_1"] = os.environ["PERSON_1"].strip() or "వివరాలు లేవు"
+          config["person_2"] = os.environ["PERSON_2"].strip() or "వివరాలు లేవు"
+          config["announcement"] = os.environ["ANNOUNCEMENT"].strip()
+          if not config["place"] or not config["area"] or not config["announcement"]:
+              raise SystemExit("Place, area, and announcement text are required.")
+          path.write_text(json.dumps(config, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          PY
+
+      - name: Generate Telugu MP3 and transcript
+        run: |
+          python src/generate_telugu_voice.py --non-interactive --output output/telugu-announcement.mp3
+          test -s output/telugu-announcement.mp3
+          test -s output/telugu-announcement.txt
+
+      - name: Upload downloadable audio artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: telugu-voice-mp3
+          path: |
+            output/telugu-announcement.mp3
+            output/telugu-announcement.txt
+          if-no-files-found: error
+          retention-days: 7

@@ -108,7 +108,9 @@ def main() -> int:
 
         print("\n--- Text to be spoken ---\n")
         print(final_text)
-        confirm = input("\nGenerate MP3 with this text? [Y/n]: ").strip().lower()
+        confirm = "y"
+        if not args.non_interactive:
+            confirm = input("\nGenerate MP3 with this text? [Y/n]: ").strip().lower()
         if confirm in {"n", "no"}:
             print("Cancelled. No audio generated.")
             return 0

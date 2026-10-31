@@ -1,0 +1,2 @@
+# Open-source Python wrapper for a hosted neural TTS service; internet required.
+edge-tts>=7.0.0
